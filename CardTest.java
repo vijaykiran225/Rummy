@@ -14,7 +14,7 @@ public class CardTest {
 		sampleCardValue1=new Card(5);
 		sampleCardValue2=new Card(10);
 		
-		assertTrue(sampleCardValue1.equals(sampleCardValue2));
+		assertFalse(sampleCardValue1.equals(sampleCardValue2));
 		
 	}
 
@@ -31,7 +31,7 @@ public class CardTest {
 		sampleCardValue1=new Card(9);
 		sampleCardValue2=new Card(10);
 		
-		assertTrue(sampleCardValue1.isNext(sampleCardValue2));
+		assertFalse(sampleCardValue1.isNext(sampleCardValue2));
 	}
 
 	@Test
