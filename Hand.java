@@ -15,8 +15,7 @@ public class Hand{
 		
 	}
 	public int numberOfcardsForRummy() {
-		return 0;
-		
+		return 0;	
 	}
 	
 }

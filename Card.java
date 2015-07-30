@@ -1,6 +1,6 @@
 package Rummy;
 
-public class Card {
+public class Card implements Comparable<Card>{
 	private int value;
 	private String rank;
 	private String suit;
@@ -31,5 +31,15 @@ public class Card {
 	public Card(int value) {
 		super();
 		this.value = value;
+	}
+	
+	@Override
+	public String toString() {
+		return "Card [value=" + value + ", rank=" + rank + ", suit=" + suit + "]";
+	}
+	@Override
+	public int compareTo(Card o) {
+		// TODO Auto-generated method stub
+		return this.value > o.value ? 1 : (this.value < o.value ? -1 : 0);
 	}
 }
