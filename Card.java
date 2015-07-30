@@ -1,23 +1,23 @@
 package Rummy;
 
 public class Card {
-	private int number;
+	private String value;
 	private String suit;
-	public int getNumber() {
-		return number;
-	}
-	public void setNumber(int number) {
-		this.number = number;
-	}
 	public String getSuite() {
 		return suit;
 	}
 	public void setSuite(String suite) {
 		this.suit = suite;
 	}
-	public Card(int number, String suite) {
+	public Card(String value, String suite) {
 		super();
-		this.number = number;
+		this.value = value;
 		this.suit = suite;
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
 	}
 }
