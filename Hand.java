@@ -18,4 +18,9 @@ public class Hand{
 		return 0;	
 	}
 	
+	private int isSequence() {
+		
+		return 0;
+	}
+	
 }
