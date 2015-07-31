@@ -6,9 +6,11 @@ import java.util.Collections;
 public class Hand{
 	private List<Card> cards=null;
 	private int numberOfCards;
+
 	private int cardsToRummy;
 
 	public Hand(List<Card> cards) {
+
 		super();
 		this.cards = cards;
 		numberOfCards = cards.size();
@@ -17,7 +19,9 @@ public class Hand{
 	
 	@Override
 	public String toString() {
+
 		return "Hand [cards=" + cards + ", numberOfCards=" + numberOfCards + ", cardsToRummy=" + cardsToRummy + "]";
+
 	}
 
 	public boolean isRummy(){
@@ -80,5 +84,25 @@ public class Hand{
 	public void sortHand()
 	{
 		Collections.sort(cards);
+		compareDifferencesBetweenCards();
+	}
+
+	
+	private int[] compareDifferencesBetweenCards() {
+		
+		int[] differences=new int[this.cards.size()];
+		differences[0]=0;
+		int prev=differences[0];
+		for(int i=1;i<differences.length;i++)
+		{
+			differences[i]=cards.get(i).diffenceBetween(cards.get(i-1));
+			
+		}
+		for (int j = 0; j < cards.size(); j++) {
+		
+			System.out.println(cards.get(j)+"\t"+differences[j]);
+		}
+		return differences;
+		
 	}
 }

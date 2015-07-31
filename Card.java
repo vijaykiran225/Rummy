@@ -44,9 +44,18 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	public String toString() {
+
 		return "\nCard[" + rank +"-"+suit + "-"+value+"]";
+
 	}
 
+	
+	public int diffenceBetween(Card other){
+		
+		return this.value-other.value;
+		
+	}
+	
 	@Override
 	public int compareTo(Card o) {
 		// TODO Auto-generated method stub

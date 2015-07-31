@@ -9,9 +9,11 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class MainClass {
+public class Dealer {
 	
 	private static final int NUMBER_OF_CARDS_IN_DECK = 53;
+	
+	
 	public static List<Card> deal(List<Card> deck,int numOfCards) {
 		Collections.shuffle(deck);
 		return  deck.subList(0, numOfCards);
@@ -28,9 +30,9 @@ public class MainClass {
 			}
 		}
 		Hand hand=new Hand(deal(deck,numOfCards));
-		System.out.println(hand);
+		//System.out.println(hand);
 		hand.sortHand();
-		System.out.println(hand);
+//		/System.out.println(hand);
 	}
 	
 }
