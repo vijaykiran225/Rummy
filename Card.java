@@ -75,6 +75,14 @@ public class Card implements Comparable<Card> {
 		return this.value > o.value ? 1 : (this.value < o.value ? -1 : 0);
 	}
 
+	public String getRank() {
+		return rank;
+	}
+
+	public String getSuit() {
+		return suit;
+	}
+
 	private String findRank(int value) {
 		if (value == 52) {
 			return "joker";
