@@ -45,12 +45,15 @@ public class Hand {
 		}
 		cards.removeAll(done);
 		System.out.println(done);
-		this.cardsToCompleteRummy -= done.size();
-		done.clear();
+		if(naturalSetPresent)
+		{
+			this.cardsToCompleteRummy -= done.size();
+			done.clear();
+		}
 		System.out.println(cards);
-		//System.out.println(searchForPairs(this.cards,DONT_LOOK_FOR_EQUIVALENTS));
-		//System.out.println("======================================================================");
-		//System.out.println(searchForPairs(sortRank(),LOOK_FOR_EQUIVALENTS));
+		searchForPairs(this.cards,DONT_LOOK_FOR_EQUIVALENTS);
+		System.out.println("======================================================================");
+		//getNextEquivalentSequence(searchForPairs(sortRank(),LOOK_FOR_EQUIVALENTS), 0);
 		/*List<Card> RankSortedCards = sortRank();
 		index = 0;
 		while (index < numberOfCards - 1) {
@@ -86,6 +89,7 @@ public class Hand {
 
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			//meldCards(number_of_cards_in_set);
+			this.naturalSetPresent=true;
 			removeCard(index, new_index);
 			return new_index;
 		}
@@ -136,17 +140,26 @@ public class Hand {
 				System.out.println("Pair " + fromListOfCards.get(i - 1) + "" + fromListOfCards.get(i));
 				pairs.add(fromListOfCards.get(i - 1));
 				pairs.add(fromListOfCards.get(i));
+				
 			}
 		}
 		
 		
 		List<Card> pairsWithoutDupliactes=new ArrayList<Card>();
 		pairsWithoutDupliactes.addAll(pairs);
+		if(naturalSetPresent)
+		{
+			int originalNumberOfCards=fromListOfCards.size();
+			int numberOfPairs=pairsWithoutDupliactes.size()/2;
+			int danglingCards=originalNumberOfCards-numberOfPairs;
+			this.cardsToCompleteRummy-=(numberOfPairs);
+			this.cardsToCompleteRummy-=danglingCards;
+		}
 		if(lookForEquivalents)
 			Collections.sort(pairsWithoutDupliactes,Card.compareRank());
 		else
 			Collections.sort(pairsWithoutDupliactes,Card.compareValues());
-		
+		System.out.println(pairsWithoutDupliactes);
 		 return pairsWithoutDupliactes;
 	}
 
