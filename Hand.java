@@ -14,8 +14,9 @@ public class Hand {
 		super();
 		this.cards = cards;
 		numberOfCards = cards.size();
-		cardsToCompleteRummy = 0;
+		cardsToCompleteRummy = 13;
 		naturalSetPresent = false;
+		sortHand();
 	}
 
 	@Override
@@ -38,22 +39,23 @@ public class Hand {
 
 	private int getNextSequence(int index) {
 		int new_index = getNextNaturalSequence(index);
-		int number_of_cards_in_set = new_index - index;
+		int number_of_cards_in_set = new_index - index+1;
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			this.naturalSetPresent = true;
+			
 			meldCards(number_of_cards_in_set);
 			return new_index;
 		} else {
 
 		}
 		new_index = getNextCanasta(index);
-		number_of_cards_in_set = new_index - index;
+		number_of_cards_in_set = new_index - index+1;
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			meldCards(number_of_cards_in_set);
 			return new_index;
 		}
 		new_index = getNextEquivalentSequence(index);
-		number_of_cards_in_set = new_index - index;
+		number_of_cards_in_set = new_index - index+1;
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			meldCards(number_of_cards_in_set);
 			return new_index;
@@ -89,10 +91,13 @@ public class Hand {
 	}
 
 	private void meldCards(int number_of_cards) {
+		this.cardsToCompleteRummy-=number_of_cards;
 	}
 
 	private Card nextCard(int index) {
+
 		if (index == (numberOfCards - 1)) {
+
 			return null;
 		}
 		return cards.get(index + 1);
