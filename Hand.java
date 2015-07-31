@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Collections;
 
 public class Hand {
+	private static final String JOKER = "joker";
 	private List<Card> cards = null;
 	private int numberOfCards;
 	private int cardsToCompleteRummy;
@@ -39,26 +40,29 @@ public class Hand {
 
 	private int getNextSequence(int index) {
 		int new_index = getNextNaturalSequence(index);
-		int number_of_cards_in_set = new_index - index+1;
+		int number_of_cards_in_set = (new_index - index) + 1;
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			this.naturalSetPresent = true;
-			
 			meldCards(number_of_cards_in_set);
 			return new_index;
 		} else {
 
 		}
 		new_index = getNextCanasta(index);
-		number_of_cards_in_set = new_index - index+1;
+		number_of_cards_in_set = (new_index - index) + 1;
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			meldCards(number_of_cards_in_set);
 			return new_index;
 		}
 		new_index = getNextEquivalentSequence(index);
-		number_of_cards_in_set = new_index - index+1;
+		number_of_cards_in_set = (new_index - index) + 1;
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			meldCards(number_of_cards_in_set);
 			return new_index;
+		}
+		Card current_card = cards.get(index);
+		if (current_card.getRank() == JOKER) {
+			this.cardsToCompleteRummy--;
 		}
 		return index + 1;
 	}
@@ -91,7 +95,7 @@ public class Hand {
 	}
 
 	private void meldCards(int number_of_cards) {
-		this.cardsToCompleteRummy-=number_of_cards;
+		this.cardsToCompleteRummy -= number_of_cards;
 	}
 
 	private Card nextCard(int index) {
