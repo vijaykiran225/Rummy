@@ -1,17 +1,25 @@
 package Rummy;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class Hand{
-	private ArrayList<Card> cards=null;
+	private List<Card> cards=null;
 	private int numberOfCards;
 
-	public Hand(ArrayList<Card> cards) {
+	public Hand(List<Card> list) {
 		super();
-		this.cards = cards;
-		numberOfCards = cards.size();
+		this.cards = list;
+		numberOfCards = list.size();
 	}
 	
+	@Override
+	public String toString() {
+		return "Hand \n[cards=" + cards + ", \nnumberOfCards=" + numberOfCards + "]\n\n";
+	}
+
 	public boolean isRummy(){
 		return false;
 		
@@ -39,6 +47,11 @@ public class Hand{
 	
 	private Card nextCard(int index) {
 		return cards.get(index + 1);
+	}
+	
+	public void sortHand()
+	{
+		Collections.sort(cards);
 	}
 	
 }

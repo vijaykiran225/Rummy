@@ -22,13 +22,15 @@ public class MainClass {
 		int numOfDecks = 3;
 		int numOfCards = 13;
 		List<Card> deck = new ArrayList<Card>();
-		for(int i = 1;i <= NUMBER_OF_CARDS_IN_DECK;i++) {
+		for(int i = 0;i < NUMBER_OF_CARDS_IN_DECK;i++) {
 			for(int j = 0;j < numOfDecks;j++){
 				deck.add(new Card(i));
 			}
 		}
-		List<Card> hand = deal(deck,numOfCards);
-		
+		Hand hand=new Hand(deal(deck,numOfCards));
+		System.out.println(hand);
+		hand.sortHand();
+		System.out.println(hand);
 	}
 	
 }

@@ -44,7 +44,7 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	public String toString() {
-		return "Card [value=" + value + ", rank=" + rank + ", suit=" + suit + "]";
+		return "\nCard[" + rank +"-"+suit + "]";
 	}
 
 	@Override
@@ -54,16 +54,16 @@ public class Card implements Comparable<Card> {
 	}
 
 	private String findRank(int value) {
-		if (value == 53) {
+		if (value == 52) {
 			return "joker";
 		}
-		String[] ranks = { "K", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q" };
+		String[] ranks = {  "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q","K" };
 		int cardsInTheSuit = 13;
 		return ranks[value % cardsInTheSuit];
 	}
 
 	private String findSuit(int value) {
-		if (value == 53) {
+		if (value == 52) {
 			return "joker";
 		}
 		String[] suits = { "spade", "spade", "spade", "spade", "spade", "spade", "spade", "spade", "spade", "spade",
