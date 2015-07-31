@@ -14,7 +14,7 @@ public class Hand {
 		super();
 		this.cards = cards;
 		numberOfCards = cards.size();
-		cardsToCompleteRummy = cards.size();
+		cardsToCompleteRummy = 0;
 		naturalSetPresent = false;
 	}
 
@@ -43,6 +43,8 @@ public class Hand {
 			this.naturalSetPresent = true;
 			meldCards(number_of_cards_in_set);
 			return new_index;
+		} else {
+
 		}
 		new_index = getNextCanasta(index);
 		number_of_cards_in_set = new_index - index;
@@ -61,7 +63,8 @@ public class Hand {
 
 	private int getNextNaturalSequence(int index) {
 		Card current_card = cards.get(index);
-		if (current_card.isPrevious(nextCard(index))) {
+		Card next_card = nextCard(index);
+		if ((next_card != null) && current_card.isPrevious(next_card)) {
 			return getNextNaturalSequence(index + 1);
 		}
 		return index;
@@ -69,7 +72,8 @@ public class Hand {
 
 	private int getNextCanasta(int index) {
 		Card current_card = cards.get(index);
-		if (current_card.equals(nextCard(index))) {
+		Card next_card = nextCard(index);
+		if ((next_card != null) && current_card.equals(nextCard(index))) {
 			return getNextCanasta(index + 1);
 		}
 		return index;
@@ -77,17 +81,20 @@ public class Hand {
 
 	private int getNextEquivalentSequence(int index) {
 		Card current_card = cards.get(index);
-		if (current_card.equivalentOf(nextCard(index))) {
+		Card next_card = nextCard(index);
+		if ((next_card != null) && current_card.equivalentOf(nextCard(index))) {
 			return getNextEquivalentSequence(index + 1);
 		}
 		return index;
 	}
 
 	private void meldCards(int number_of_cards) {
-		this.cardsToCompleteRummy -= number_of_cards;
 	}
 
 	private Card nextCard(int index) {
+		if (index == (numberOfCards - 1)) {
+			return null;
+		}
 		return cards.get(index + 1);
 	}
 
