@@ -35,7 +35,10 @@ public class Hand {
 		while (index < numberOfCards - 1) {
 			index = getNextSequence(index);
 		}
-		searchForPairs();
+		searchForPairs(this.cards,false);
+		System.out.println("======================================================================");
+		searchForPairs(sortRank(),true);
+		
 		return this.cardsToCompleteRummy;
 	}
 
@@ -91,14 +94,22 @@ public class Hand {
 		return index;
 	}
 
-	private void searchForPairs() {
-		for (int i = 1; i < cards.size(); i++) {
-			boolean isDifferenceOne = cards.get(i).diffenceBetween(cards.get(i - 1)) == 1;
-			boolean isDifferenceTwo = cards.get(i).diffenceBetween(cards.get(i - 1)) == 2;
-
-			boolean isEqual=cards.get(i).equals(cards.get(i - 1));
-			if (isDifferenceOne || isDifferenceTwo || isEqual) {
-				System.out.println("Pair " + cards.get(i - 1) + "" + cards.get(i));
+	private void searchForPairs(List<Card> fromListOfCards,boolean lookForEquivalents) {
+		for (int i = 1; i < fromListOfCards.size(); i++) {
+			boolean foundPair=false;
+			
+			if(lookForEquivalents){
+				foundPair=fromListOfCards.get(i).isEquivalent(fromListOfCards.get(i - 1));
+			}
+			else{
+				boolean isDifferenceOne = fromListOfCards.get(i).diffenceBetween(fromListOfCards.get(i - 1)) == 1;
+				boolean isDifferenceTwo = fromListOfCards.get(i).diffenceBetween(fromListOfCards.get(i - 1)) == 2;
+				boolean isEqual=fromListOfCards.get(i).equals(fromListOfCards.get(i - 1));
+				foundPair = isDifferenceOne||isDifferenceTwo||isEqual;
+			}
+			
+			if (foundPair) {
+				System.out.println("Pair " + fromListOfCards.get(i - 1) + "" + fromListOfCards.get(i));
 				
 			}
 		}
@@ -127,7 +138,14 @@ public class Hand {
 		return cards.get(index + 1);
 	}
 
+	private List<Card> sortRank(){
+		List<Card> temp = cards;
+		Collections.sort(temp, Card.compareRank());
+		System.out.println(temp);
+		return temp;
+	}
 	public void sortHand() {
-		Collections.sort(cards);
+		Collections.sort(cards,Card.compareValues());
+		
 	}
 }
