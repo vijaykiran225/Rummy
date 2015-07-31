@@ -1,10 +1,15 @@
 package Rummy;
 
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class Hand {
+	private static final boolean LOOK_FOR_EQUIVALENTS = true;
+	private static final boolean DONT_LOOK_FOR_EQUIVALENTS = false;
 	private static final String JOKER = "joker";
 	private List<Card> cards = null;
 	private List<Card> done = null;
@@ -38,10 +43,9 @@ public class Hand {
 		while (index < numberOfCards - 1) {
 			index = getNextSequence(index);
 		}
-		searchForPairs(this.cards, false);
+		System.out.println(searchForPairs(this.cards,DONT_LOOK_FOR_EQUIVALENTS));
 		System.out.println("======================================================================");
-		searchForPairs(sortRank(), true);
-
+		System.out.println(searchForPairs(sortRank(),LOOK_FOR_EQUIVALENTS));
 		/*List<Card> RankSortedCards = sortRank();
 		index = 0;
 		while (index < numberOfCards - 1) {
@@ -56,6 +60,8 @@ public class Hand {
 		*/
 		return this.cardsToCompleteRummy;
 	}
+
+	
 
 	private int getNextSequence(int index) {
 		int new_index = getNextNaturalSequence(index);
@@ -103,7 +109,9 @@ public class Hand {
 		return index;
 	}
 
-	private void searchForPairs(List<Card> fromListOfCards, boolean lookForEquivalents) {
+
+	private List<Card> searchForPairs(List<Card> fromListOfCards,boolean lookForEquivalents) {
+		HashSet<Card> pairs=new HashSet<Card>();
 		for (int i = 1; i < fromListOfCards.size(); i++) {
 			boolean foundPair = false;
 
@@ -118,10 +126,20 @@ public class Hand {
 
 			if (foundPair) {
 				System.out.println("Pair " + fromListOfCards.get(i - 1) + "" + fromListOfCards.get(i));
-
+				pairs.add(fromListOfCards.get(i - 1));
+				pairs.add(fromListOfCards.get(i));
 			}
 		}
-
+		
+		
+		List<Card> pairsWithoutDupliactes=new ArrayList<Card>();
+		pairsWithoutDupliactes.addAll(pairs);
+		if(lookForEquivalents)
+			Collections.sort(pairsWithoutDupliactes,Card.compareRank());
+		else
+			Collections.sort(pairsWithoutDupliactes,Card.compareValues());
+		
+		 return pairsWithoutDupliactes;
 	}
 
 	private int getNextEquivalentSequence(List<Card> fromListOfCards, int index) {

@@ -23,7 +23,7 @@ public class CardTest {
 		sampleCardValue1=new Card(5);
 		sampleCardValue2=new Card(10);
 		
-		assertFalse(sampleCardValue1.equivalentOf(sampleCardValue2));
+		assertFalse(sampleCardValue1.isEquivalent(sampleCardValue2));
 	}
 
 	@Test
