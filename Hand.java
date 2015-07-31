@@ -22,7 +22,7 @@ public class Hand {
 		super();
 		this.cards = cards;
 		numberOfCards = cards.size();
-		cardsToCompleteRummy = 13;
+		cardsToCompleteRummy = cards.size() - 1;
 		naturalSetPresent = false;
 		done = new ArrayList<Card>();
 		sortHand();
@@ -40,12 +40,17 @@ public class Hand {
 
 	public int numberOfcardsForRummy() {
 		int index = 0;
-		while (index < numberOfCards - 1) {
+		while (index < cards.size()) {
 			index = getNextSequence(index);
 		}
-		System.out.println(searchForPairs(this.cards,DONT_LOOK_FOR_EQUIVALENTS));
-		System.out.println("======================================================================");
-		System.out.println(searchForPairs(sortRank(),LOOK_FOR_EQUIVALENTS));
+		cards.removeAll(done);
+		System.out.println(done);
+		this.cardsToCompleteRummy -= done.size();
+		done.clear();
+		System.out.println(cards);
+		//System.out.println(searchForPairs(this.cards,DONT_LOOK_FOR_EQUIVALENTS));
+		//System.out.println("======================================================================");
+		//System.out.println(searchForPairs(sortRank(),LOOK_FOR_EQUIVALENTS));
 		/*List<Card> RankSortedCards = sortRank();
 		index = 0;
 		while (index < numberOfCards - 1) {
@@ -65,29 +70,32 @@ public class Hand {
 
 	private int getNextSequence(int index) {
 		int new_index = getNextNaturalSequence(index);
-
 		int number_of_cards_in_set = (new_index - index) + 1;
+		
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
 			this.naturalSetPresent = true;
-			meldCards(number_of_cards_in_set);
+			//meldCards(number_of_cards_in_set);
 			removeCard(index, new_index);
 			return new_index;
 		} else {
 
 		}
+		
 		new_index = getNextCanasta(index);
-
 		number_of_cards_in_set = (new_index - index) + 1;
 
 		if (number_of_cards_in_set >= MIN_SET_SIZE) {
-			meldCards(number_of_cards_in_set);
+			//meldCards(number_of_cards_in_set);
 			removeCard(index, new_index);
 			return new_index;
 		}
+		
 		Card current_card = cards.get(index);
+		
 		if (current_card.getRank() == JOKER) {
 			this.cardsToCompleteRummy--;
 		}
+		
 		return index + 1;
 	}
 
@@ -103,7 +111,7 @@ public class Hand {
 	private int getNextCanasta(int index) {
 		Card current_card = cards.get(index);
 		Card next_card = nextCard(index);
-		if ((next_card != null) && current_card.equals(nextCard(index))) {
+		if ((next_card != null) && current_card.equals(next_card)) {
 			return getNextCanasta(index + 1);
 		}
 		return index;
@@ -167,14 +175,9 @@ public class Hand {
 	}
 	
 	private void removeCard(int index, int new_index) {
-		done.addAll(cards.subList(index, new_index));
-		List<Card> new_cards = cards.subList(0, index);
-		if (new_index < numberOfCards - 1) {
-			new_cards.addAll(cards.subList(new_index, numberOfCards - 1));
+		if (new_index < numberOfCards) {
+			done.addAll(cards.subList(index, new_index + 1));
 		}
-		cards.clear();
-		cards.addAll(new_cards);
-		numberOfCards = cards.size();
 	}
 
 	private List<Card> sortRank() {
