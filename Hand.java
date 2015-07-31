@@ -3,106 +3,95 @@ package Rummy;
 import java.util.List;
 import java.util.Collections;
 
-public class Hand{
-	private List<Card> cards=null;
+public class Hand {
+	private List<Card> cards = null;
 	private int numberOfCards;
-
 	private int cardsToCompleteRummy;
+	private static int MIN_SET_SIZE = 3;
+	private boolean naturalSetPresent;
 
 	public Hand(List<Card> cards) {
-
 		super();
 		this.cards = cards;
 		numberOfCards = cards.size();
 		cardsToCompleteRummy = cards.size();
+		naturalSetPresent = false;
 	}
-	
+
 	@Override
 	public String toString() {
-
-		return "Hand [cards=" + cards + ", numberOfCards=" + numberOfCards + ", cardsToRummy=" + cardsToCompleteRummy + "]";
-
+		return "Hand [cards=" + cards + ", numberOfCards=" + numberOfCards + ", cardsToRummy=" + cardsToCompleteRummy
+				+ "]";
 	}
 
-	public boolean isRummy(){
-		return this.cardsToCompleteRummy == 0;		
+	public boolean isRummy() {
+		return this.cardsToCompleteRummy == 0 && this.naturalSetPresent;
 	}
+
 	public int numberOfcardsForRummy() {
-		for (int i = 0; i < numberOfCards - 1; i += getNextSequence(i)) {
-			
+		int index = 0;
+		while (index < numberOfCards - 1) {
+			index = getNextSequence(index);
 		}
-		return this.cardsToCompleteRummy;	
+		return this.cardsToCompleteRummy;
 	}
-	
+
 	private int getNextSequence(int index) {
-		int number_of_cards_in_set = 1;
-		
-		for(int i = index ; i < numberOfCards - 1; i++) {
-			Card current_card = cards.get(i);
-			if (current_card.isPrevious(nextCard(i)) || current_card.equals(nextCard(i)) || current_card.equivalentOf(nextCard(i))) {
-				System.out.println(i);
-				number_of_cards_in_set++;
-			} else {
-				i++;
-				break;
-			}
+		int new_index = getNextNaturalSequence(index);
+		int number_of_cards_in_set = new_index - index;
+		if (number_of_cards_in_set >= MIN_SET_SIZE) {
+			this.naturalSetPresent = true;
+			meldCards(number_of_cards_in_set);
+			return new_index;
 		}
-		if (number_of_cards_in_set > 2) {
-			this.cardsToCompleteRummy -= number_of_cards_in_set; 
+		new_index = getNextCanasta(index);
+		number_of_cards_in_set = new_index - index;
+		if (number_of_cards_in_set >= MIN_SET_SIZE) {
+			meldCards(number_of_cards_in_set);
+			return new_index;
 		}
-		return number_of_cards_in_set;
+		new_index = getNextEquivalentSequence(index);
+		number_of_cards_in_set = new_index - index;
+		if (number_of_cards_in_set >= MIN_SET_SIZE) {
+			meldCards(number_of_cards_in_set);
+			return new_index;
+		}
+		return index + 1;
 	}
-	
+
 	private int getNextNaturalSequence(int index) {
 		Card current_card = cards.get(index);
-		if (current_card.isPrevious(nextCard(index))){
-			return getNextNaturalSequence(index+1);
+		if (current_card.isPrevious(nextCard(index))) {
+			return getNextNaturalSequence(index + 1);
 		}
 		return index;
 	}
-	
+
 	private int getNextCanasta(int index) {
 		Card current_card = cards.get(index);
-		if (current_card.equals(nextCard(index))){
-			return getNextCanasta(index+1);
+		if (current_card.equals(nextCard(index))) {
+			return getNextCanasta(index + 1);
 		}
 		return index;
 	}
-	
+
 	private int getNextEquivalentSequence(int index) {
 		Card current_card = cards.get(index);
-		if (current_card.equivalentOf(nextCard(index))){
-			return getNextEquivalentSequence(index+1);
+		if (current_card.equivalentOf(nextCard(index))) {
+			return getNextEquivalentSequence(index + 1);
 		}
 		return index;
 	}
-	
+
+	private void meldCards(int number_of_cards) {
+		this.cardsToCompleteRummy -= number_of_cards;
+	}
+
 	private Card nextCard(int index) {
 		return cards.get(index + 1);
 	}
-	
-	public void sortHand()
-	{
-		Collections.sort(cards);
-		//compareDifferencesBetweenCards();
-	}
 
-	
-	private int[] compareDifferencesBetweenCards() {
-		
-		int[] differences=new int[this.cards.size()];
-		differences[0]=0;
-		int prev=differences[0];
-		for(int i=1;i<differences.length;i++)
-		{
-			differences[i]=cards.get(i).diffenceBetween(cards.get(i-1));
-			
-		}
-		for (int j = 0; j < cards.size(); j++) {
-		
-			System.out.println(cards.get(j)+"\t"+differences[j]);
-		}
-		return differences;
-		
+	public void sortHand() {
+		Collections.sort(cards);
 	}
 }
