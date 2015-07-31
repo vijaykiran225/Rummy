@@ -7,31 +7,31 @@ public class Hand{
 	private List<Card> cards=null;
 	private int numberOfCards;
 
-	private int cardsToRummy;
+	private int cardsToCompleteRummy;
 
 	public Hand(List<Card> cards) {
 
 		super();
 		this.cards = cards;
 		numberOfCards = cards.size();
-		cardsToRummy = cards.size();
+		cardsToCompleteRummy = cards.size();
 	}
 	
 	@Override
 	public String toString() {
 
-		return "Hand [cards=" + cards + ", numberOfCards=" + numberOfCards + ", cardsToRummy=" + cardsToRummy + "]";
+		return "Hand [cards=" + cards + ", numberOfCards=" + numberOfCards + ", cardsToRummy=" + cardsToCompleteRummy + "]";
 
 	}
 
 	public boolean isRummy(){
-		return this.cardsToRummy == 0;		
+		return this.cardsToCompleteRummy == 0;		
 	}
 	public int numberOfcardsForRummy() {
 		for (int i = 0; i < numberOfCards - 1; i += getNextSequence(i)) {
 			
 		}
-		return this.cardsToRummy;	
+		return this.cardsToCompleteRummy;	
 	}
 	
 	private int getNextSequence(int index) {
@@ -48,7 +48,7 @@ public class Hand{
 			}
 		}
 		if (number_of_cards_in_set > 2) {
-			this.cardsToRummy -= number_of_cards_in_set; 
+			this.cardsToCompleteRummy -= number_of_cards_in_set; 
 		}
 		return number_of_cards_in_set;
 	}
@@ -56,7 +56,7 @@ public class Hand{
 	private int getNextNaturalSequence(int index) {
 		Card current_card = cards.get(index);
 		if (current_card.isPrevious(nextCard(index))){
-			return getNextNaturalSequence(index);
+			return getNextNaturalSequence(index+1);
 		}
 		return index;
 	}
@@ -64,7 +64,7 @@ public class Hand{
 	private int getNextCanasta(int index) {
 		Card current_card = cards.get(index);
 		if (current_card.equals(nextCard(index))){
-			return getNextCanasta(index);
+			return getNextCanasta(index+1);
 		}
 		return index;
 	}
@@ -72,7 +72,7 @@ public class Hand{
 	private int getNextEquivalentSequence(int index) {
 		Card current_card = cards.get(index);
 		if (current_card.equivalentOf(nextCard(index))){
-			return getNextEquivalentSequence(index);
+			return getNextEquivalentSequence(index+1);
 		}
 		return index;
 	}
@@ -84,7 +84,7 @@ public class Hand{
 	public void sortHand()
 	{
 		Collections.sort(cards);
-		compareDifferencesBetweenCards();
+		//compareDifferencesBetweenCards();
 	}
 
 	

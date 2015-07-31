@@ -30,9 +30,9 @@ public class Dealer {
 			}
 		}
 		Hand hand=new Hand(deal(deck,numOfCards));
-		//System.out.println(hand);
+		System.out.println(hand);
 		hand.sortHand();
-//		/System.out.println(hand);
+		System.out.println(hand);
 	}
 	
 }

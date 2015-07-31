@@ -22,7 +22,12 @@ public class Card implements Comparable<Card> {
 	}
 
 	public boolean isNext(Card obj) {
+		
 		if (suit.equals(obj.suit)) {
+			if(this.rank.equals("A") && obj.rank.equals("K"))
+			{
+				return true;
+			}
 			return (this.value - obj.value) == 1;
 		}
 		return false;
@@ -30,6 +35,10 @@ public class Card implements Comparable<Card> {
 
 	public boolean isPrevious(Card obj) {
 		if (suit.equals(obj.suit)) {
+			if(this.rank.equals("K") && obj.rank.equals("A"))
+			{
+				return true;
+			}
 			return (obj.value - this.value) == 1;
 		}
 		return false;
