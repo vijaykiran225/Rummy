@@ -22,10 +22,6 @@ public class Card  {
 		return (value == obj.value);
 	}
 
-	public boolean equivalentOf(Card obj) {
-		return (rank == obj.rank);
-	}
-
 	public boolean isNext(Card obj) {
 		
 		if (suit.equals(obj.suit)) {
