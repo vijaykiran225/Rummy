@@ -17,7 +17,7 @@ public class Card implements Comparable<Card> {
 		return (value == obj.value);
 	}
 
-	public boolean equivalent(Card obj) {
+	public boolean equivalentOf(Card obj) {
 		return (rank == obj.rank);
 	}
 
@@ -44,7 +44,7 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	public String toString() {
-		return "\nCard[" + rank +"-"+suit + "]";
+		return "\nCard[" + rank +"-"+suit + "-"+value+"]";
 	}
 
 	@Override

@@ -1,48 +1,76 @@
 package Rummy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 
 public class Hand{
 	private List<Card> cards=null;
 	private int numberOfCards;
+	private int cardsToRummy;
 
-	public Hand(List<Card> list) {
+	public Hand(List<Card> cards) {
 		super();
-		this.cards = list;
-		numberOfCards = list.size();
+		this.cards = cards;
+		numberOfCards = cards.size();
+		cardsToRummy = cards.size();
 	}
 	
 	@Override
 	public String toString() {
-		return "Hand \n[cards=" + cards + ", \nnumberOfCards=" + numberOfCards + "]\n\n";
+		return "Hand [cards=" + cards + ", numberOfCards=" + numberOfCards + ", cardsToRummy=" + cardsToRummy + "]";
 	}
 
 	public boolean isRummy(){
-		return false;
-		
+		return this.cardsToRummy == 0;		
 	}
 	public int numberOfcardsForRummy() {
 		for (int i = 0; i < numberOfCards - 1; i += getNextSequence(i)) {
 			
 		}
-		return 0;	
+		return this.cardsToRummy;	
 	}
 	
 	private int getNextSequence(int index) {
-		int number_of_cards = 1;
+		int number_of_cards_in_set = 1;
+		
 		for(int i = index ; i < numberOfCards - 1; i++) {
 			Card current_card = cards.get(i);
-			if (current_card.isPrevious(nextCard(i))) {
-				number_of_cards++;
+			if (current_card.isPrevious(nextCard(i)) || current_card.equals(nextCard(i)) || current_card.equivalentOf(nextCard(i))) {
+				System.out.println(i);
+				number_of_cards_in_set++;
+			} else {
+				i++;
+				break;
 			}
 		}
-		if (number_of_cards > 2) {
-			return index;
+		if (number_of_cards_in_set > 2) {
+			this.cardsToRummy -= number_of_cards_in_set; 
 		}
-		return 0;
+		return number_of_cards_in_set;
+	}
+	
+	private int getNextNaturalSequence(int index) {
+		Card current_card = cards.get(index);
+		if (current_card.isPrevious(nextCard(index))){
+			return getNextNaturalSequence(index);
+		}
+		return index;
+	}
+	
+	private int getNextCanasta(int index) {
+		Card current_card = cards.get(index);
+		if (current_card.equals(nextCard(index))){
+			return getNextCanasta(index);
+		}
+		return index;
+	}
+	
+	private int getNextEquivalentSequence(int index) {
+		Card current_card = cards.get(index);
+		if (current_card.equivalentOf(nextCard(index))){
+			return getNextEquivalentSequence(index);
+		}
+		return index;
 	}
 	
 	private Card nextCard(int index) {
@@ -53,5 +81,4 @@ public class Hand{
 	{
 		Collections.sort(cards);
 	}
-	
 }
