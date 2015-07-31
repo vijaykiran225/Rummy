@@ -16,6 +16,7 @@ public class Dealer {
 	
 	public static List<Card> deal(List<Card> deck,int numOfCards) {
 		Collections.shuffle(deck);
+		
 		return  deck.subList(0, numOfCards);
 		
 	}
@@ -30,9 +31,9 @@ public class Dealer {
 			}
 		}
 		Hand hand=new Hand(deal(deck,numOfCards));
-		System.out.println(hand);
 		hand.sortHand();
 		System.out.println(hand);
+		System.out.println(hand.numberOfcardsForRummy());
 	}
 	
 }
