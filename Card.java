@@ -60,8 +60,12 @@ public class Card implements Comparable<Card> {
 
 	
 	public int diffenceBetween(Card other){
-		
-		return this.value-other.value;
+		if(this.suit.equals(other.suit)){
+			return this.value-other.value;
+		}
+		else{
+			return -1;
+		}
 		
 	}
 	
