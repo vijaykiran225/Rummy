@@ -1,6 +1,8 @@
 package Rummy;
 
-public class Card implements Comparable<Card> {
+import java.util.Comparator;
+
+public class Card  {
 	private int value;
 	private String rank;
 	private String suit;
@@ -13,6 +15,9 @@ public class Card implements Comparable<Card> {
 		this.value = value;
 	}
 
+	public boolean isEquivalent(Card obj) {
+		return (this.rank.equals(obj.rank) && (!this.suit.equals(obj.suit)));
+	}
 	public boolean equals(Card obj) {
 		return (value == obj.value);
 	}
@@ -69,12 +74,33 @@ public class Card implements Comparable<Card> {
 		
 	}
 	
-	@Override
-	public int compareTo(Card o) {
+	public static Comparator<Card> compareValues () {
 		// TODO Auto-generated method stub
-		return this.value > o.value ? 1 : (this.value < o.value ? -1 : 0);
+		Comparator<Card> comparator=new Comparator<Card>() {
+			
+			@Override
+			public int compare(Card o1, Card o2) {
+				// TODO Auto-generated method stub
+				return o1.value > o2.value ? 1 : (o1.value < o2.value ? -1 : 0);
+			}
+		};
+		
+		return comparator;
 	}
 
+	public static Comparator<Card> compareRank () {
+		// TODO Auto-generated method stub
+		Comparator<Card> comparator=new Comparator<Card>() {
+			
+			@Override
+			public int compare(Card o1, Card o2) {
+				// TODO Auto-generated method stub
+				return o1.rank.compareTo(o2.rank);
+			}
+		};
+		
+		return comparator;
+	}
 	public String getRank() {
 		return rank;
 	}
@@ -103,4 +129,6 @@ public class Card implements Comparable<Card> {
 				"diamond", "diamond", "diamond", "diamond", "diamond", "diamond", "diamond", "diamond" };
 		return suits[value];
 	}
+
+
 }
